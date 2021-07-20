@@ -45,7 +45,7 @@ int read_devname(char *file_name, char *devname)
         int fd_uevent;
         int read_count = 0;
         int find_data_len = 0;
-        char buf[100];
+        char buf[1024] = {0};
         char devname_len = 0;
         char *temp_p = 0;
         char *devname_p = 0;
@@ -65,6 +65,8 @@ int read_devname(char *file_name, char *devname)
 
                 /* 在读取出的buf数组中查找字符串 */
                 temp_p = strstr(buf, "DEVNAME=");
+		//log("%s\n", buf);
+		//log("=============================\n");
                 if(temp_p == NULL)
                         continue;
 
