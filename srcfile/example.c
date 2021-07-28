@@ -6,8 +6,8 @@ int main()
         char name[10];
         int ret = 0;
 
-#if 0
-        ret = check_usbdev("ea60", "10c4");
+#if 1
+        ret = check_usbdev("5758", "0483");
 #else 
         ret = check_usbdev("b579", "04f2");
 #endif
@@ -17,8 +17,8 @@ int main()
                 printf("device no exist!]\n\n");
 
 
-#if 0
-        ret = get_usbdevname("ea60","10c4", ttyUSB, name);
+#if 1
+        ret = get_usbdevname("5758", "0483", pcm, name);
 #else 
         ret = get_usbdevname("b579","04f2", video, name);
 #endif
