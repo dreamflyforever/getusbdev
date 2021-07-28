@@ -13,6 +13,9 @@
 + `./example/lib` 存放对应的动态库文件
 + `./example/include` 存放对应的头文件
 
+## Compile
+Cross compile, just execute 'compile.sh' to product `getusbdev`.
+
 ## Usage
 **1. 获取usb设备的设备名**
 `int get_usbdevname(char *pid, char *vid, device_type devtype, char *name)` 
@@ -22,25 +25,23 @@
 + @param name:用于接收设备名的数组首地址   
 + retval: 0:success -1:failed
 
-&emsp;`device_type`能设置为`ttyUSB`和`vedio`
+&emsp;`device_type`能设置为`ttyUSB`, `pcm`和`vedio`
         
 **2. 检查对应vid、pid的设备是否存在**
 `int check_usbdev(char *pid, char *vid);` 
 + @param pid:设备PID vid:设备VID
 + @retval 0:success 1:fail
 
-执行`example` demo的时候需要指定库路径，可使用下述方法临时设置库路径
+执行`getusbdev` demo的时候需要指定库路径，可使用下述方法临时设置库路径
 ```c
         cd ./example/src/
         export LD_LIBRARY_PATH=../lib
 ```
 
-之后可输入 `ldd example` 查看库依赖关系，确认依赖关系没有问题
-输入`./example` 执行测试程序
-
-## Compile
-gcc.
+之后可输入 `ldd getusbdev` 查看库依赖关系，确认依赖关系没有问题
+输入`./getusbdev` 执行测试程序
 
 ## License
 Follow the MIT license.
 Editor @wanglei(tim).
+Modify by Jim
