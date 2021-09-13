@@ -41,6 +41,9 @@ Cross compile, just execute 'compile.sh' to product `getusbdev`.
 之后可输入 `ldd getusbdev` 查看库依赖关系，确认依赖关系没有问题
 输入`./getusbdev` 执行测试程序
 
+## NOTICE
+NDK版本需要20版本
+
 ## License
 Follow the MIT license.
 Editor @wanglei(tim).
