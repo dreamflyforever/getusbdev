@@ -30,7 +30,7 @@ int usbdevtype = 0;
 void sys_error(char *str)
 {
         perror(str);
-        exit(-1);
+        //exit(-1);
 }
 
 /*
@@ -191,9 +191,9 @@ int find_devname(char *pathname, char* name)
         /* 创建子进程用于查找设备名，因为子进程工作路径不会影响父进程工作路径 */
         pid_t pid;
         pid = fork();
-        if(pid == -1)
+        if(pid == -1) {
                 sys_error("fork error");
-        else if(pid == 0) {
+        } else if(pid == 0) {
                 find_ueventfile(pathname, (void*)p);
                 exit(1);
         }else {
@@ -230,6 +230,9 @@ int scan_usbdevice(char *pathname)
         if(ret == -1)
                 sys_error("read error");
         close(fd);
+	if ((file_buf == NULL) || (find_pid == NULL)) {
+		goto out;
+	}
         ret = strncmp(file_buf, find_pid, 4);
         if(ret != 0) {
                 ret = -1;
