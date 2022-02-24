@@ -195,14 +195,15 @@ int find_devname(char *pathname, char* name)
                 sys_error("fork error");
         } else if(pid == 0) {
                 find_ueventfile(pathname, (void*)p);
-                exit(1);
+		goto error;
+                //exit(1);
         }else {
                 wait(NULL);
                 printf("finish:%s\n", p);
                 strcpy(name, p);
         }
         munmap(p, 100);
-
+error:
         return ret;
 }
 
@@ -318,31 +319,31 @@ int scan_dir(char *dir, char *name)
  */
 int get_usbdevname(char *pid, char *vid, device_type devtype, char *name)
 {
-        int ret = 0;
+        int ret = -1;
         int len = 0;
         /* param length check */
         len = strlen(pid);
         if(len != 4) {
                 printf("Param PID length error!\n");
-                exit(-1);
+		goto error;
         }
         len = strlen(vid);
         if (len != 4) {
                 printf("Param VID length error!\n");
-                exit(-1);
+		goto error;
         }
 
         find_pid = (char*)malloc(10);
         if(find_pid == NULL) {
                 printf("malloc error %s %d\n", __FUNCTION__, __LINE__);
-                exit(-1);
+		goto error;
         }
         memset(find_pid, 0, 10);
 
         find_vid = (char*)malloc(10);
         if(find_vid == NULL) {
                 printf("malloc error %s %d\n", __FUNCTION__, __LINE__);
-                exit(-1);
+		goto free_pid;
         }
         memset(find_vid, 0, 10);
         
@@ -355,10 +356,11 @@ int get_usbdevname(char *pid, char *vid, device_type devtype, char *name)
         ret = scan_dir(USB_FOLDER_NAME, name);
 
         free(find_vid);
+free_pid:
         free(find_pid);
         find_vid = NULL;
         find_pid = NULL;
-
+error:
         return ret;
 }
 
@@ -375,24 +377,26 @@ int check_usbdev(char *pid, char *vid)
         len = strlen(pid);
         if(len != 4) {
                 printf("Param PID length error!\n");
-                exit(-1);
+                //exit(-1);
+		goto error;
         }
         len = strlen(vid);
         if (len != 4) {
                 printf("Param VID length error!\n");
-                exit(-1);
+                //exit(-1);
+		goto error;
         }
 
         find_pid = (char*)malloc(10);
         if(find_pid == NULL) {
                 printf("malloc error %s %d\n", __FUNCTION__, __LINE__);
-                exit(-1);
+		goto error;
         }
         memset(find_pid, 0, 10);
         find_vid = (char*)malloc(10);
         if(find_vid == NULL) {
                 printf("malloc error %s %d\n", __FUNCTION__, __LINE__);
-                exit(-1);
+		goto free_pid;
         }
         memset(find_vid, 0, 10);
         strncpy(find_pid, pid, 5);
@@ -402,10 +406,11 @@ int check_usbdev(char *pid, char *vid)
         ret = scan_dir(USB_FOLDER_NAME, NULL);
 
         free(find_vid);
+free_pid:
         free(find_pid);
         find_vid = NULL;
         find_pid = NULL;
-
+error:
         return ret;
 }
 
